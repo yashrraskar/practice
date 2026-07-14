@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(){
+int size;
+cout<<"Enter the size of array -";
+cin>>size;
+
+int array[5];
+int i,j,temp,k;
+
+//input
+cout<<"\nEnter "<<size<<" numbers -";
+size=size-1;
+
+for (i=0;i<=size;i++){
+   cin>>array[i];
+}
+
+//sort
+for (i=0;i<=size;i++){
+   for (j=0;j<=size;j++){
+       if(array[i]<array[j]){
+           temp=array[i];
+           array[i]=array[j];
+           array[j]=temp;
+       }
+   }
+}
+
+//display
+cout<<"Sorted Array :";
+for (i=0;i<=size;i++){
+   cout<<array[i]<<" ";
+}
+
+return 0;
+}
