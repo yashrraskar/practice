@@ -1,0 +1,181 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Node{
+public:
+    string title;
+    string artist;
+    float duration;
+    Node* next;
+
+    Node(string t, string a, float d)
+    {
+        title = t;
+        artist = a;
+        duration = d;
+        next = NULL;
+    }
+};
+
+class Playlist
+{
+    Node* head;
+
+public:
+    Playlist(){
+        head = NULL;
+    }
+
+    void addSong(string t, string a, float d){
+        Node* newNode = new Node(t, a, d);
+
+        if(head == NULL)
+        {
+            head = newNode;
+            return;
+        }
+
+        Node* temp = head;
+
+        while(temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+
+        temp->next = newNode;
+    }
+
+    void displayPlaylist(){
+        if(head == NULL)
+        {
+            cout << "Playlist is Empty\n";
+            return;
+        }
+
+        Node* temp = head;
+
+        while(temp != NULL){
+            cout << "Title : " << temp->title << endl;
+            cout << "Artist : " << temp->artist << endl;
+            cout << "Duration : " << temp->duration << " min\n";
+            cout << "----------------------\n";
+
+            temp = temp->next;
+        }
+    }
+
+    void removeSong(string title){
+        if(head == NULL){
+            cout << "Playlist Empty\n";
+            return;
+        }
+
+        if(head->title == title){
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+            cout << "Song Removed\n";
+            return;
+        }
+
+        Node* temp = head;
+
+        while(temp->next != NULL && temp->next->title != title){
+            temp = temp->next;
+        }
+
+        if(temp->next == NULL){
+            cout << "Song Not Found\n";
+            return;
+        }
+
+        Node* del = temp->next;
+        temp->next = del->next;
+        delete del;
+
+        cout << "Song Removed\n";
+    }
+
+    void playSong(string title){
+        Node* temp = head;
+
+        while(temp != NULL)
+        {
+            if(temp->title == title)
+            {
+                cout << "Now Playing : " << temp->title << endl;
+                cout << "Artist : " << temp->artist << endl;
+                cout << "Duration : " << temp->duration << " min\n";
+                return;
+            }
+
+            temp = temp->next;
+        }
+
+        cout << "Song Not Found\n";
+    }
+};
+
+int main(){
+    Playlist p;
+    int choice;
+    string title, artist;
+    float duration;
+
+    do{
+        cout << "\n1. Add Song";
+        cout << "\n2. Remove Song";
+        cout << "\n3. Display Playlist";
+        cout << "\n4. Play Song";
+        cout << "\n5. Exit";
+        cout << "\nEnter Choice: ";
+        cin >> choice;
+        cin.ignore();
+
+        switch(choice){
+        case 1:
+            cout << "Enter Title: ";
+            getline(cin, title);
+
+            cout << "Enter Artist: ";
+            getline(cin, artist);
+
+            cout << "Enter Duration: ";
+            cin >> duration;
+
+            p.addSong(title, artist, duration);
+            break;
+
+        case 2:
+            cin.ignore();
+            cout << "Enter Song Title: ";
+            getline(cin, title);
+
+            p.removeSong(title);
+            break;
+
+        case 3:
+            p.displayPlaylist();
+            break;
+
+        case 4:
+            cin.ignore();
+            cout << "Enter Song Title: ";
+            getline(cin, title);
+
+            p.playSong(title);
+            break;
+
+        case 5:
+            cout << "Thank You!\n";
+            break;
+
+        default:
+            cout << "Invalid Choice\n";
+        }
+
+    } while(choice != 5);
+
+    return 0;
+}
